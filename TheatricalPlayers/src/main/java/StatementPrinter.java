@@ -12,9 +12,6 @@ public class StatementPrinter {
     res.append(invoice.customer);
     res.append("\n");
 
-    //Transform the format of numbers from US to European and vice versa
-    NumberFormat nbFormat = NumberFormat.getCurrencyInstance(Locale.US);
-
     for (Performance perf : invoice.performances) {
       Play play = plays.get(perf.playID);
       double thisAmount;
@@ -32,26 +29,16 @@ public class StatementPrinter {
       // Add extra credit for every ten comedy attendees
       if ("comedy".equals(play.type)) volumeCredits += Math.floor(perf.audience / 5);
 
-      // Print line for this order
-      res.append("  ");
-      res.append(play.name);
-      res.append(": ");
-      res.append(nbFormat.format(thisAmount));
-      res.append(" (");
-      res.append(perf.audience);
-      res.append(" seats)\n");
+      // Print line for this piece
+      printThisPiece(res, play.name, perf.audience, thisAmount);
 
       totalAmount += thisAmount;
     }
     // Total amount owed by this customer
-    res.append("Amount owed is ");
-    res.append(nbFormat.format(totalAmount));
-    res.append("\n");
+    printTotalAmount(res, totalAmount);
 
     // Total credits earned by this customer
-    res.append("You earned ");
-    res.append(volumeCredits);
-    res.append(" credits\n");
+    printCreditsEarned(res, volumeCredits);
     return res.toString();
   }
 
@@ -100,4 +87,35 @@ public class StatementPrinter {
   }
   //----- ----- ----- ----- ----- ----- -----//
 
+  //Different type of print used for the string
+  //----- ----- ----- ----- ----- ----- -----//
+  public void printThisPiece(StringBuilder res, String name, int audience, double amount){
+    //Transform the format of numbers from US to European and vice versa
+    NumberFormat nbFormat = NumberFormat.getCurrencyInstance(Locale.US);
+
+    res.append("  ");
+    res.append(name);
+    res.append(": ");
+    res.append(nbFormat.format(amount));
+    res.append(" (");
+    res.append(audience);
+    res.append(" seats)\n");
+  }
+
+  public void printTotalAmount(StringBuilder res, double totalAmount){
+    //Transform the format of numbers from US to European and vice versa
+    NumberFormat nbFormat = NumberFormat.getCurrencyInstance(Locale.US);
+    
+    res.append("Amount owed is ");
+    res.append(nbFormat.format(totalAmount));
+    res.append("\n");
+  }
+  
+  public void printCreditsEarned(StringBuilder res, int credits){
+    res.append("You earned ");
+    res.append(credits);
+    res.append(" credits\n");
+  }
+
+  //----- ----- ----- ----- ----- ----- -----//
 }
