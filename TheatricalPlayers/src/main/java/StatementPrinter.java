@@ -3,6 +3,7 @@ import java.util.*;
 
 public class StatementPrinter {
 
+  // Generate the TXT for the customer
   public String print(Invoice invoice, Map<String, Play> plays) {
     double totalAmount = 0;
     int volumeCredits = 0;
@@ -43,7 +44,7 @@ public class StatementPrinter {
     return res.toString();
   }
 
-
+  // Generate the HTML for the customer
   public String printHTML(Invoice invoice, Map<String, Play> plays) {
     double totalAmount = 0;
     int volumeCredits = 0;
@@ -148,7 +149,6 @@ public class StatementPrinter {
 
   //All print used for the TXT string
   //----- ----- ----- ----- ----- ----- -----//
-
   public void printTXT_Customer(StringBuilder res, String customer){
     res.append("Statement for ");
     res.append(customer);
@@ -186,7 +186,6 @@ public class StatementPrinter {
 
   //All print used for the HTML string
   //----- ----- ----- ----- ----- ----- -----//
-
   public void printHTML_beginning(StringBuilder res) {
     res.append("<!DOCTYPE html>");
     res.append("<html lang='fr'>");
@@ -209,7 +208,7 @@ public class StatementPrinter {
     res.append("<body>");
   }
   public void printHTML_TableHeader(StringBuilder res){
-    res.append("<table>");
+    res.append("<table style='width:50%'>");
 
     res.append("<tr>");
     res.append("<th>Piece</th>");
